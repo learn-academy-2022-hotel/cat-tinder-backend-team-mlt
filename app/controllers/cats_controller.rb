@@ -11,16 +11,15 @@ class CatsController < ApplicationController
         render json: cat
     end
     
-      # Handle strong parameters, so we are secure
-    private
-    def cat_params
-        params.require(:cat).permit(:name, :age, :enjoys, :image)
-    end
-  
-    def update
-    end
-  
-    def destroy
-    end
-  
+      def update
+      end
+      
+      def destroy
+      end
+      
+      private
+      def cat_params
+          params.require(:cat).permit(:name, :age, :enjoys, :image)
+      end
+    
 end
