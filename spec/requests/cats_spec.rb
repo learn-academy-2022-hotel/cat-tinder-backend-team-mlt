@@ -43,6 +43,63 @@ RSpec.describe "Cats", type: :request do
       # Assure that the created cat has the correct attributes
       expect(cat.name).to eq 'Tom'
     end
+
+    it "doesn't create a cat without a name" do
+      cat_params = {
+        cat: {
+          age: 6,
+          enjoys: 'chasing Jerry',
+          image: 'https://static.wikia.nocookie.net/tomandjerry/images/1/14/Tom_Cat_2.png/revision/latest?cb=20200412163656'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response.status).to eq 422
+      json = JSON.parse(response.body)
+      expect(json['name']).to include "can't be blank"
+    end
+
+    it "doesn't create a cat without an age" do
+      cat_params = {
+        cat: {
+          name: 'Tom',
+          enjoys: 'chasing Jerry',
+          image: 'https://static.wikia.nocookie.net/tomandjerry/images/1/14/Tom_Cat_2.png/revision/latest?cb=20200412163656'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response.status).to eq 422
+      json = JSON.parse(response.body)
+      expect(json['age']).to include "can't be blank"
+    end
+
+    it "doesn't create a cat without an enjoys" do
+      cat_params = {
+        cat: {
+          name: 'Tom',
+          age: 6,
+          image: 'https://static.wikia.nocookie.net/tomandjerry/images/1/14/Tom_Cat_2.png/revision/latest?cb=20200412163656'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response.status).to eq 422
+      json = JSON.parse(response.body)
+      expect(json['enjoys']).to include "can't be blank"
+    end
+
+    it "doesn't create a cat without an image" do
+      cat_params = {
+        cat: {
+          name: 'Tom',
+          age: 6,
+          enjoys: 'chasing Jerry'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response.status).to eq 422
+      json = JSON.parse(response.body)
+      expect(json['image']).to include "can't be blank"
+    end
+
   end
 
 end
